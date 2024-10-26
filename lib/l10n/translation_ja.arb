@@ -1,0 +1,11 @@
+{
+    "clipboardHistory": "クリップボード履歴",
+    "configurations": "設定",
+    "maxHistoryLength": "最大保存件数",
+    "keepHistoryUnique": "重複する履歴を削除",
+    "windowAlwaysOnTop": "常に最前面に表示",
+    "restorePreviousState": "起動時に前回の状態を復元",
+    "restoreDefaultConfigurations": "初期設定に戻す",
+    "copiedToClipboard": "クリップボードにコピーしました",
+    "historyCleared": "クリップボード履歴を削除しました"
+}

@@ -1,0 +1,11 @@
+{
+    "clipboardHistory": "Clipboard History",
+    "configurations": "Configurations",
+    "maxHistoryLength": "Max list length",
+    "keepHistoryUnique": "Unique list items",
+    "windowAlwaysOnTop": "Always on top",
+    "restorePreviousState": "Restore previous state",
+    "restoreDefaultConfigurations": "Reset to default",
+    "copiedToClipboard": "Copied to clipboard",
+    "historyCleared": "Clipboard history are cleared"
+}
