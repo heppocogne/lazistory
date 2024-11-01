@@ -85,13 +85,11 @@ class _LazistoryHomeState extends ConsumerState<LazistoryHome> with ClipboardLis
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        // AnimatedListが良いか?
-        child: Column(
-          children: ref.watch(clipboardHistoryStateNotifierProvider).history.map((str) {
-            return ListElement(str);
-          }).toList(),
-        ),
+      child: ListView.builder(
+        itemCount: ref.watch(clipboardHistoryStateNotifierProvider).history.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListElement(ref.watch(clipboardHistoryStateNotifierProvider).history[index]);
+        },
       ),
     );
   }
