@@ -1,5 +1,5 @@
 {
-    "clipboardHistory": "Clipboard History",
+    "searchClipboardHistory": "Search clipboard History",
     "configurations": "Configurations",
     "maxHistoryLength": "Max list length",
     "keepHistoryUnique": "Unique list items",
@@ -7,5 +7,8 @@
     "restorePreviousState": "Restore previous state",
     "restoreDefaultConfigurations": "Reset to default",
     "copiedToClipboard": "Copied to clipboard",
+    "clearHistoryContent": "Would you want to clear the clipboard history?",
+    "confirmDeletion": "Delete",
+    "cancelDeletion": "Cancel",
     "historyCleared": "Clipboard history are cleared"
 }

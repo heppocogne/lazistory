@@ -1,5 +1,5 @@
 {
-    "clipboardHistory": "クリップボード履歴",
+    "searchClipboardHistory": "クリップボード履歴を検索",
     "configurations": "設定",
     "maxHistoryLength": "最大保存件数",
     "keepHistoryUnique": "重複する履歴を削除",
@@ -7,5 +7,8 @@
     "restorePreviousState": "起動時に前回の状態を復元",
     "restoreDefaultConfigurations": "初期設定に戻す",
     "copiedToClipboard": "クリップボードにコピーしました",
+    "clearHistoryContent": "クリップボード履歴を削除しますか?",
+    "confirmDeletion": "削除する",
+    "cancelDeletion": "削除しない",
     "historyCleared": "クリップボード履歴を削除しました"
 }

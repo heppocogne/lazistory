@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lazistory/l10n/app_localizations.dart';
 
 import 'package:lazistory/model/app_config.dart';
 import 'package:lazistory/model/clipboard_history.dart';
@@ -57,7 +57,9 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                           var intValue = int.parse(value);
                           intValue = max(1, min(intValue, 65536));
                           widget.maxHistoryLengthController.text = intValue.toString();
-                          ref.read(lazistoryAppConfigProvider.notifier).setMaxHistoryLength(intValue);
+                          ref
+                              .read(lazistoryAppConfigProvider.notifier)
+                              .setMaxHistoryLength(intValue);
                           setState(() {});
                         },
                       ),
@@ -97,7 +99,9 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                     Switch(
                       value: ref.watch(lazistoryAppConfigProvider).restorePreviousState,
                       onChanged: (value) {
-                        ref.read(lazistoryAppConfigProvider.notifier).setRestorePreviousState(value);
+                        ref
+                            .read(lazistoryAppConfigProvider.notifier)
+                            .setRestorePreviousState(value);
                         if (value) {
                           ref.watch(clipboardHistoryStateNotifierProvider).saveHistory();
                         }

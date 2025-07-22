@@ -9,9 +9,20 @@ import 'package:lazistory/model/file_location.dart';
 class ClipboardHistory {
   static final saveFilePath = '${appDocumentsDirectory.path}/history.toml';
 
-  ClipboardHistory(this.history);
+  ClipboardHistory(this.history, this.filter) {
+    if (filter == '') {
+      filtered = history;
+    } else {
+      final lowerCaseFilter = filter.toLowerCase();
+      filtered = history.where((str) {
+        return str.toLowerCase().contains(lowerCaseFilter);
+      }).toList();
+    }
+  }
 
-  List<String> history;
+  final List<String> history;
+  late List<String> filtered;
+  final String filter;
 
   static ClipboardHistory restored() {
     final file = File(saveFilePath);
@@ -19,9 +30,9 @@ class ClipboardHistory {
       final String toml = file.readAsStringSync();
       final doc = TomlDocument.parse(toml);
       final list = doc.toMap()['history'] as List;
-      return ClipboardHistory(list.map((elem) => elem.toString()).toList());
+      return ClipboardHistory(list.map((elem) => elem.toString()).toList(), '');
     }
-    return ClipboardHistory([]);
+    return ClipboardHistory([], '');
   }
 
   Future<void> saveHistory() async {
@@ -32,13 +43,17 @@ class ClipboardHistory {
     final file = File(saveFilePath);
     await file.writeAsString(doc.toString());
   }
+
+  int filteredLength() {
+    return filtered.length;
+  }
 }
 
 class ClipboardHistoryStateNotifier extends StateNotifier<ClipboardHistory> {
   ClipboardHistoryStateNotifier(super.state);
 
   void clear() {
-    state = ClipboardHistory([]);
+    state = ClipboardHistory([], state.filter);
   }
 
   void pushFront(String str, bool keepUnique, int maxLength) {
@@ -50,21 +65,25 @@ class ClipboardHistoryStateNotifier extends StateNotifier<ClipboardHistory> {
     }
 
     if (list.length < maxLength) {
-      state = ClipboardHistory(list);
+      state = ClipboardHistory(list, state.filter);
     } else {
-      state = ClipboardHistory(list.sublist(0, maxLength));
+      state = ClipboardHistory(list.sublist(0, maxLength), state.filter);
     }
   }
 
-  int _size() {
-    return state.history.length;
+  void setFilter(String filter) {
+    state = ClipboardHistory(state.history, filter);
+  }
+
+  int length() {
+    return state.filteredLength();
   }
 
   String? get(int index) {
-    if (index < 0 || _size() <= index) {
+    if (index < 0 || length() <= index) {
       return null;
     } else {
-      return state.history[index];
+      return state.filtered[index];
     }
   }
 }
@@ -73,6 +92,6 @@ final clipboardHistoryStateNotifierProvider = StateNotifierProvider<ClipboardHis
   if (ref.watch(lazistoryAppConfigProvider).restorePreviousState) {
     return ClipboardHistoryStateNotifier(ClipboardHistory.restored());
   } else {
-    return ClipboardHistoryStateNotifier(ClipboardHistory([]));
+    return ClipboardHistoryStateNotifier(ClipboardHistory([], ''));
   }
 });

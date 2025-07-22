@@ -5,7 +5,7 @@
 1週間も掛からないくらいで作ったのでクオリティはお察し下さい。
 
 ## ビルドできない時
-自動生成された 'package:flutter_gen/gen_l10n/app_localizations.dart' が見つからず、ビルドが通らない場合があります。  
+自動生成された 'package:lazistory/l10n/app_localizations.dart' が見つからず、ビルドが通らない場合があります。  
 まず以下のコマンドを実行してください。
 ```bash
 flutter gen-l10n
