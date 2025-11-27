@@ -1,8 +1,8 @@
 import 'dart:io';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lazistory/model/file_location.dart';
 import 'package:toml/toml.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:lazistory/model/file_location.dart';
 
 class LazistoryAppConfig {
   static final configFilePath = '${appDocumentsDirectory.path}/config.toml';
@@ -12,6 +12,8 @@ class LazistoryAppConfig {
   bool keepHistoryUnique = true;
   bool windowAlwaysOnTop = true;
   bool restorePreviousState = true;
+  double windowWidth = 1280.0;
+  double windowHeight = 720.0;
 
   LazistoryAppConfig();
 
@@ -20,6 +22,8 @@ class LazistoryAppConfig {
     this.keepHistoryUnique,
     this.windowAlwaysOnTop,
     this.restorePreviousState,
+    this.windowWidth,
+    this.windowHeight,
   );
 
   static LazistoryAppConfig load() {
@@ -34,6 +38,8 @@ class LazistoryAppConfig {
           config['HideDuplicatedHistory'],
           config['WindowAlwaysOnTop'],
           config['RestorePreviousState'],
+          config['WindowWidth'] ?? 1280.0,
+          config['WindowHeight'] ?? 720.0,
         );
       }
     }
@@ -45,12 +51,16 @@ class LazistoryAppConfig {
     bool? keepHistoryUnique,
     bool? windowAlwaysOnTop,
     bool? restorePreviousState,
+    double? windowWidth,
+    double? windowHeight,
   }) {
     return LazistoryAppConfig.withValues(
       maxHistoryLength ?? this.maxHistoryLength,
       keepHistoryUnique ?? this.keepHistoryUnique,
       windowAlwaysOnTop ?? this.windowAlwaysOnTop,
       restorePreviousState ?? this.restorePreviousState,
+      windowWidth ?? this.windowWidth,
+      windowHeight ?? this.windowHeight,
     );
   }
 
@@ -61,6 +71,8 @@ class LazistoryAppConfig {
       'HideDuplicatedHistory': keepHistoryUnique,
       'WindowAlwaysOnTop': windowAlwaysOnTop,
       'RestorePreviousState': restorePreviousState,
+      'WindowWidth': windowWidth,
+      'WindowHeight': windowHeight,
     };
 
     var doc = TomlDocument.fromMap(map);
@@ -88,15 +100,20 @@ class ConfigStateNotifier extends StateNotifier<LazistoryAppConfig> {
     state = state.copyWith(restorePreviousState: value);
   }
 
+  void setWindowSize(double width, double height) {
+    state = state.copyWith(windowWidth: width, windowHeight: height);
+  }
+
   void setConfig(LazistoryAppConfig config) {
     state = config;
   }
 
-  bool isRestorePreviousState() {
-    return state.restorePreviousState;
+  Future<void> save() async {
+    await state.saveConfig();
   }
 }
 
-final lazistoryAppConfigProvider = StateNotifierProvider<ConfigStateNotifier, LazistoryAppConfig>((ref) {
+final lazistoryAppConfigProvider =
+    StateNotifierProvider<ConfigStateNotifier, LazistoryAppConfig>((ref) {
   return ConfigStateNotifier(LazistoryAppConfig.load());
 });
